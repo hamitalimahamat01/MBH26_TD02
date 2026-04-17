@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AideChain</title>
+    <meta name="description" content="AideChain : registre blockchain partagé pour une aide humanitaire transparente et équitable au Tchad. Équipe TD-02.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #fefefe;
+            color: #1e2a3e;
+            scroll-behavior: smooth;
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #2ecc71;
+            border-radius: 3px;
+        }
+        .section {
+            padding: 5rem 1.5rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .section-dark {
+            background: #f0f4f8;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(44, 62, 80, 0.98);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .logo {
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .logo .brand-name {
+            background: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .gradient-tchad {
+            background: linear-gradient(135deg, #002664 0%, #FECB00 50%, #C60C30 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+        .team-badge {
+            background: rgba(255,255,240,0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #f1c40f;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(4px);
+        }
+        .team-badge span {
+            color: white;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+            list-style: none;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .nav-links a:hover {
+            color: #f1c40f;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.75), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1523800503107-5bc3ba2a6f81?q=80&w=2080&auto=format') center/cover no-repeat;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(0,0,0,0.5);
+            border-radius: 32px;
+            backdrop-filter: blur(4px);
+        }
+        .hero h1 {
+            font-size: 3.8rem;
+            margin-bottom: 1rem;
+        }
+        .hero h1 .brand-name {
+            background: white;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .hero h1 .gradient-tchad {
+            font-size: inherit;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            display: inline-block;
+            background: #2ecc71;
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 40px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #f1c40f;
+            color: #f1c40f;
+        }
+        .btn-outline:hover {
+            background: #f1c40f;
+            color: #1e2a3e;
+        }
+        .btn-readmore {
+            background: #f39c12;
+            margin-top: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .btn-readmore:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+
+        /* Cards & stats */
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.8rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+            transition: all 0.25s;
+            flex: 1;
+            min-width: 220px;
+            border: 1px solid #eef2f6;
+            text-align: center;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 36px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #e74c3c;
+        }
+        .impact-number {
+            color: #27ae60;
+        }
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        .feature-list li {
+            background: #ecfdf5;
+            margin: 0.8rem 0;
+            padding: 0.8rem 1rem;
+            border-left: 5px solid #2ecc71;
+            font-weight: 500;
+            border-radius: 12px;
+        }
+
+        /* Chart */
+        .chart-container {
+            background: white;
+            border-radius: 28px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .bar-item {
+            margin: 1.5rem 0;
+        }
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+        .bar-bg {
+            background: #e2e8f0;
+            border-radius: 20px;
+            height: 30px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            background: #2ecc71;
+            width: 0%;
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            color: white;
+            font-weight: bold;
+            transition: width 1s ease;
+        }
+        .bar-fill.red {
+            background: #e74c3c;
+        }
+
+        /* Video section - taille réduite */
+        .video-container {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .video-wrapper {
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.2);
+            background: #111;
+            width: 70%;
+            max-width: 800px;
+        }
+        .video-wrapper video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: block;
+            outline: none;
+        }
+
+        /* Sélecteur de catégories + carrousel (une image à la fois) */
+        .mockup-selector {
+            background: white;
+            border-radius: 32px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        }
+        .selector-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            border-left: 5px solid #2ecc71;
+            padding-left: 15px;
+            color: #1e2a3e;
+        }
+        .selector-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        .cat-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+        }
+        .cat-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+        .cat-btn.active {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+            box-shadow: 0 6px 12px rgba(46,204,113,0.2);
+        }
+
+        /* Carrousel : une seule image visible à la fois, taille réduite */
+        .carousel-container {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+        .carousel-track-wrapper {
+            overflow-x: hidden;
+            border-radius: 24px;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease;
+        }
+        .carousel-card {
+            flex: 0 0 100%;
+            background: #f8fafc;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+        }
+        .carousel-card img {
+            width: 60%;
+            max-width: 500px;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            background: #f0f2f5;
+            display: block;
+            border-radius: 16px;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .carousel-card img:hover {
+            transform: scale(1.02);
+        }
+        .card-caption {
+            padding: 1rem;
+            background: white;
+            font-weight: 500;
+            text-align: center;
+            border-top: 1px solid #eef2f6;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #2c3e50;
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 60px;
+            cursor: pointer;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .carousel-btn:hover {
+            background: #2ecc71;
+            transform: translateY(-50%) scale(1.05);
+        }
+        .carousel-btn-left {
+            left: -20px;
+        }
+        .carousel-btn-right {
+            right: -20px;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #cbd5e1;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .dot.active {
+            background: #2ecc71;
+            width: 28px;
+            border-radius: 20px;
+        }
+
+        /* Lightbox modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            z-index: 2001;
+        }
+        .lightbox-close:hover {
+            color: #2ecc71;
+        }
+
+        @media (max-width: 780px) {
+            .navbar { flex-direction: column; align-items: stretch; text-align: center; }
+            .hero h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; }
+            .section { padding: 3rem 1rem; }
+            .carousel-btn-left { left: -8px; }
+            .carousel-btn-right { right: -8px; }
+            .carousel-card img { width: 80%; max-height: 250px; }
+            .video-wrapper { width: 95%; }
+            .lightbox-close { top: 10px; right: 20px; font-size: 30px; }
+        }
+
+        .badge {
+            background: #2ecc71;
+            color: white;
+            font-size: 0.7rem;
+            border-radius: 30px;
+            padding: 0.2rem 0.8rem;
+            display: inline-block;
+        }
+        .extra-content {
+            display: none;
+            margin-top: 1.8rem;
+            padding: 1.6rem;
+            background: #ffffff;
+            border-radius: 28px;
+            border-left: 6px solid #2ecc71;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #1e293b;
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.12);
+        }
+        .extra-content.show {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        footer {
+            background: #1e2a3e;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .mockup-gallery {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .mockup-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            flex: 1;
+            min-width: 140px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="brand-name">
+                <span class="gradient-tchad">AideChain</span>
+            </span>
+        </div>
+        <div class="team-badge">
+            🇹🇩 Tchad | Equipe TD-02
+        </div>
+        <ul class="nav-links">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#probleme">Probleme</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#impact">Impact</a></li>
+            <li><a href="#maquette">Maquette</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section id="accueil" class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="brand-name">
+                    <span class="gradient-tchad">AideChain</span>
+                </span>
+            </h1>
+            <p>Blockchain humanitaire - transparence, equite, efficacite pour les populations du Tchad</p>
+            <a href="#maquette" class="btn">Decouvrir la plateforme</a>
+            <a href="#impact" class="btn btn-outline" style="margin-left: 1rem;">Voir l'impact</a>
+        </div>
+    </section>
+
+    <!-- Probleme -->
+    <section id="probleme" class="section">
+        <div class="container">
+            <h2>Le defi humanitaire au Tchad</h2>
+            <p style="font-size: 1.2rem; margin-top: 1rem;">Plus de 70 ONG interviennent chaque annee, mais l'absence de coordination entraine des doublons et des zones oubliees.</p>
+            <div class="cards-grid">
+                <div class="card"><div class="stat-number">70+</div><p>Organisations humanitaires</p><small>Operations independantes</small></div>
+                <div class="card"><div class="stat-number">400M USD</div><p>Aide annuelle distribuee</p><small>Potentiel sous-optimise</small></div>
+                <div class="card"><div class="stat-number">20-35%</div><p>Doublons d'enregistrement</p><small>Beneficiaires multiples / exclus</small></div>
+            </div>
+            <p style="margin-top: 1.5rem; background: #fff0e0; padding: 1rem; border-radius: 24px;"><strong>Consequence :</strong> gaspillage de ressources, inegalites d'acces, perte de confiance entre bailleurs et ONG. <strong>AideChain repond a ce vide coordination.</strong></p>
+            
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button class="btn btn-readmore" data-target="probExtra">Lire integralement</button>
+            </div>
+            <div id="probExtra" class="extra-content">
+                <p><strong>Analyse approfondie :</strong> Au Tchad, les systemes d'enregistrement cloisonnes creent une situation ou 1 beneficiaire sur 4 recoit plusieurs fois la meme aide (nourriture, cash) tandis que des familles entieres restent invisibles. Cela genere environ <strong>80 a 110 millions USD de gaspillage</strong> par an selon des simulations OCHA.</p>
+                <p>AideChain casse ces silos grace a un identifiant unique infalsifiable, reduisant les frictions et maximisant l'efficacite. <strong>Objectif 2027 : zero doublon detecte dans les regions pilotes (Lac Tchad, Salamat).</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution -->
+    <section id="solution" class="section section-dark">
+        <div class="container">
+            <h2>Notre solution : registre blockchain partage</h2>
+            <p style="font-size: 1.1rem; margin: 1rem 0 2rem 0;">AideChain connecte toutes les organisations via un registre infalsifiable, detectant les doublons en temps reel et assurant une tracabilite complete.</p>
+            <div class="cards-grid">
+                <div class="card"><strong>Registre unifie</strong><br>Chaque beneficiaire est identifie de maniere unique (biometrie + ID anonymise)</div>
+                <div class="card"><strong>Detection automatique</strong><br>Interdiction des doublons avant distribution</div>
+                <div class="card"><strong>Dashboard interactif</strong><br>Carte de chaleur des zones couvertes, indicateurs d'aide</div>
+                <div class="card"><strong>Transparence totale</strong><br>Bailleurs et ONG consultent l'historique des transferts</div>
+            </div>
+            <div class="feature-list" style="max-width: 800px; margin: 2rem auto 0 auto;">
+                <li> Reduction des couts administratifs : -30% de gaspillage</li>
+                <li> Ciblage intelligent des zones non desservies (heatmap)</li>
+                <li> Application mobile terrain pour les agents ONG</li>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-readmore" data-target="solExtra">Explorer la technologie</button>
+            </div>
+            <div id="solExtra" class="extra-content">
+                <p><strong>Architecture technique :</strong> AideChain utilise Hyperledger Fabric (permissioned). Chaque inscription genere un hash securise. Les API REST permettent aux ONG de soumettre leurs bases et de recevoir des alertes de doublons en moins de 2 secondes.</p>
+                <p>Tableau de bord avec indicateurs temps reel : aides uniques, repartition geographique, taux de couverture.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact -->
+    <section id="impact" class="section">
+        <div class="container">
+            <h2>Impact mesurable pour le Tchad</h2>
+            <p>Grace a AideChain, l'aide humanitaire devient equitable, efficiente et transparente.</p>
+            <div class="cards-grid">
+                <div class="card"><div class="stat-number impact-number">-20 a -35%</div><p>Reduction des doublons</p><small>plus de beneficiaires uniques</small></div>
+                <div class="card"><div class="stat-number impact-number">80-140M USD</div><p>Reallocation annuelle</p><small>ressources economisees</small></div>
+                <div class="card"><div class="stat-number impact-number">+75%</div><p>Confiance ONG / bailleurs</p><small>tracabilite complete</small></div>
+            </div>
+            <div class="chart-container">
+                <h3>Efficacite de la distribution : AVANT / APRES AideChain</h3>
+                <div class="bar-item"><div class="bar-label"><span>Doublons de beneficiaires</span><span>32%</span></div><div class="bar-bg"><div class="bar-fill red" style="width: 32%;">32%</div></div></div>
+                <div class="bar-item"><div class="bar-label"><span>Avec AideChain</span><span><6%</span></div><div class="bar-bg"><div class="bar-fill" style="width: 6%; background: #2ecc71;">6%</div></div></div>
+                <div class="bar-item"><div class="bar-label"><span>Couverture zones critiques</span><span>57%</span></div><div class="bar-bg"><div class="bar-fill red" style="width: 57%;">57%</div></div></div>
+                <div class="bar-item"><div class="bar-label"><span>Apres deploiement</span><span>92%</span></div><div class="bar-bg"><div class="bar-fill" style="width: 92%; background: #2ecc71;">92%</div></div></div>
+                <p class="badge" style="margin-top:1rem;">Analyse OCHA / AideChain simulation</p>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-readmore" data-target="impactExtra">Details de l'impact social</button>
+            </div>
+            <div id="impactExtra" class="extra-content">
+                <p><strong>Impact qualitatif :</strong> Redirection de 80-140M USD vers zones non couvertes (Est Tchad, refugies soudanais). Confiance accrue des bailleurs (UE, PAM, UNICEF). Contribution aux ODD 2,3,10,17.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maquette avec vidéo + carrousel "une seule image à la fois" -->
+    <section id="maquette" class="section section-dark">
+        <div class="container">
+            <h2>Interface & demo fonctionnelle</h2>
+            <p style="margin-bottom: 2rem;">Decouvrez la maquette de notre plateforme : registre blockchain, tableau de bord, detection des doublons, carte de chaleur. Cliquez sur une categorie pour voir ses captures d'ecran (une par une). Cliquez sur une image pour l'agrandir.</p>
+            
+            <!-- Vidéo avec taille réduite -->
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <video controls poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='100%25' height='100%25' fill='%232c3e50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='12'%3EDemo AideChain%3C/text%3E%3C/svg%3E">
+                        <source src="video/aidechain-demo.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la video. Fichier local : /video/aidechain-demo.mp4
+                    </video>
+                    <div style="background: #1e2a3e; color:#ccc; font-size:0.7rem; text-align:center; padding:4px;">Fichier local : video/demo-plateforme.mp4 - Demonstration blockchain</div>
+                </div>
+            </div>
+
+            <!-- Sélecteur + carrousel mono-image -->
+            <div class="mockup-selector">
+                <div class="selector-title">Explorer les maquettes par fonctionnalité</div>
+                <div class="selector-buttons" id="categoryButtons">
+                    <button class="cat-btn active" data-cat="ong">Interface ONG</button>
+                    <button class="cat-btn" data-cat="coordination">Interface coordination</button>
+                    <button class="cat-btn" data-cat="doublons">Liste des doublons</button>
+                    <button class="cat-btn" data-cat="beneficiaires">Liste bénéficiaires</button>
+                    <button class="cat-btn" data-cat="carte">Carte couverture</button>
+                </div>
+
+                <div class="carousel-container" id="carouselContainer">
+                    <button class="carousel-btn carousel-btn-left" id="carouselPrev">←</button>
+                    <div class="carousel-track-wrapper">
+                        <div class="carousel-track" id="carouselTrack"></div>
+                    </div>
+                    <button class="carousel-btn carousel-btn-right" id="carouselNext">→</button>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+                <p style="font-size:0.8rem; margin-top:1rem; text-align:center; color:#4b5563;">Navigation par flèches – une image à la fois (5 maquettes par catégorie)</p>
+            </div>
+
+            <div class="mockup-gallery">
+                <div class="mockup-card"><h3>Registre partage</h3><p>Beneficiaires uniques synchronises</p><span class="badge">Demo live</span></div>
+                <div class="mockup-card"><h3>Carte de chaleur</h3><p>Zones couvertes / prioritaires</p><span class="badge">Dashboard</span></div>
+                <div class="mockup-card"><h3>Alertes doublons</h3><p>Detection en temps reel</p><span class="badge">Blockchain</span></div>
+            </div>
+
+            <div style="background: white; border-radius: 28px; padding: 1.5rem; margin-top: 2rem; text-align: center;">
+                <p><strong>La video presente en action :</strong> inscription beneficiaires, interoperabilite, tableau de bord transparence.</p>
+                <div style="display: flex; gap: 0.8rem; justify-content: center; margin-top: 1rem;">
+                    <span class="badge" style="background:#3498db;">API REST</span>
+                    <span class="badge" style="background:#e67e22;">Mobile-ready</span>
+                    <span class="badge" style="background:#2c3e50;">Securite blockchain</span>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-readmore" data-target="mockExtra">Plus de fonctionnalites maquette</button>
+            </div>
+            <div id="mockExtra" class="extra-content">
+                <p><strong>Fonctionnalites avancees :</strong> simulation doublons (CSV), API verification, export rapports bailleurs, workflow hors ligne.</p>
+                <p>Prochaines etapes : integration biometrie et pilote Lac Tchad.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Agrandissement">
+    </div>
+
+    <footer>
+        <p>© 2026 AideChain — Initiative portee par l'equipe TD-02 (Tchad) pour une aide humanitaire decentralisee et transparente.</p>
+        <p>contact@aidechain.org | blockchain pour l'impact social</p>
+    </footer>
+
+    <script>
+        // ========== DONNÉES DES MAQUETTES ==========
+        const mockupsData = {
+            ong: [
+                { img: "./ONG/ong_1.png", caption: "Interface d'enregistrement des bénéficiaires" },
+                { img: "./ONG/ong_2.png", caption: "Dashboard ONG avec indicateurs clés" },
+                { img: "./ONG/ong_3.png", caption: "Liste des bénéficiaires et détection doublons" },
+                { img: "./ONG/ong_4.png", caption: "Filtrage par région et période" },
+                { img: "./ONG/ong_5.png", caption: "Statistiques et rapports d'aide" },
+                { img: "./ONG/ong_6.png", caption: "Statistiques et rapports d'aide" },
+                { img: "./ONG/ong_7.png", caption: "Statistiques et rapports d'aide" },
+                { img: "./ONG/ong_8.png", caption: "Statistiques et rapports d'aide" },
+                { img: "./ONG/ong_9.png", caption: "Statistiques et rapports d'aide" },
+                { img: "./ONG/ong_10.png", caption: "Statistiques et rapports d'aide" },
+                { img: "./ONG/ong_11.png", caption: "Statistiques et rapports d'aide" }
+            ],
+            coordination: [
+                { img: "https://placehold.co/800x500/1e3a5f/white?text=Coordination+Dashboard", caption: "Dashboard coordination (exemple)" },
+                { img: "https://placehold.co/800x500/276749/white?text=Filtres+région", caption: "Filtres par région" },
+                { img: "https://placehold.co/800x500/9c4221/white?text=Alertes+sous-couvertes", caption: "Alertes zones sous-couvertes" },
+                { img: "https://placehold.co/800x500/2c5282/white?text=Statistiques+globales", caption: "Indicateurs clés" },
+                { img: "https://placehold.co/800x500/4a627a/white?text=Rapport+export", caption: "Export rapports consolidés" }
+            ],
+            doublons: [
+                { img: "https://placehold.co/800x500/742a2a/white?text=Liste+doublons", caption: "Liste des doublons détectés" },
+                { img: "https://placehold.co/800x500/2c3e50/white?text=Détail+doublon", caption: "Détail d'un doublon (comparaison)" },
+                { img: "https://placehold.co/800x500/7b341e/white?text=Résolution", caption: "Action de résolution fusion" },
+                { img: "https://placehold.co/800x500/c53030/white?text=Alerte+notification", caption: "Notification automatique" },
+                { img: "https://placehold.co/800x500/4a627a/white?text=Historique", caption: "Historique des conflits" }
+            ],
+            beneficiaires: [
+                { img: "https://placehold.co/800x500/1e3a8a/white?text=Liste+bénéficiaires", caption: "Liste des bénéficiaires uniques" },
+                { img: "https://placehold.co/800x500/065f46/white?text=Profil+bénéficiaire", caption: "Profil détaillé / aides reçues" },
+                { img: "https://placehold.co/800x500/854d0e/white?text=Export+sécurisé", caption: "Export pour bailleurs" },
+                { img: "https://placehold.co/800x500/3b82f6/white?text=Recherche+avancée", caption: "Recherche multicritères" },
+                { img: "https://placehold.co/800x500/10b981/white?text=Suivi", caption: "Suivi des distributions" }
+            ],
+            carte: [
+                { img: "https://placehold.co/800x500/2d3748/white?text=Carte+chaleur", caption: "Carte de chaleur des zones couvertes" },
+                { img: "https://placehold.co/800x500/9b2c2c/white?text=Zones+non+couvertes", caption: "Zones non couvertes (rouge)" },
+                { img: "https://placehold.co/800x500/2c7a7b/white?text=Couverture+district", caption: "Couverture détaillée par district" },
+                { img: "https://placehold.co/800x500/319795/white?text=Superposition+ONG", caption: "Superposition des interventions ONG" },
+                { img: "https://placehold.co/800x500/4a5568/white?text=Évolution", caption: "Évolution de la couverture" }
+            ]
+        };
+
+        let currentCategory = 'ong';
+        let currentIndex = 0;
+        let track, trackWrapper, dotsContainer, prevBtn, nextBtn;
+
+        function updateCarousel() {
+            if (!track) return;
+            const cardWidth = track.children[0]?.offsetWidth;
+            if (!cardWidth) return;
+            const translateX = -currentIndex * cardWidth;
+            track.style.transform = `translateX(${translateX}px)`;
+            updateDots();
+        }
+
+        function updateDots() {
+            if (!dotsContainer) return;
+            const total = mockupsData[currentCategory].length;
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < total; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === currentIndex) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    currentIndex = i;
+                    updateCarousel();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function renderCategory(category) {
+            currentCategory = category;
+            currentIndex = 0;
+            const items = mockupsData[category];
+            if (!items) return;
+            track.innerHTML = '';
+            items.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'carousel-card';
+                card.innerHTML = `
+                    <img src="${item.img}" alt="${item.caption}" loading="lazy" 
+                         onerror="this.onerror=null; this.src='https://placehold.co/800x500/f0f2f5/333?text=Introuvable:+${encodeURIComponent(item.img)}';">
+                    <div class="card-caption">${item.caption}</div>
+                `;
+                track.appendChild(card);
+            });
+            setTimeout(() => {
+                updateCarousel();
+                window.dispatchEvent(new Event('resize'));
+                // Attacher les événements de clic pour la lightbox sur les nouvelles images
+                attachLightboxEvents();
+            }, 50);
+        }
+
+        // Lightbox : gestion du clic sur les images
+        function attachLightboxEvents() {
+            const images = document.querySelectorAll('#carouselTrack img');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.querySelector('.lightbox-close');
+
+            images.forEach(img => {
+                img.removeEventListener('click', lightboxClickHandler);
+                img.addEventListener('click', lightboxClickHandler);
+            });
+
+            function lightboxClickHandler(e) {
+                e.stopPropagation();
+                const src = this.getAttribute('src');
+                const alt = this.getAttribute('alt');
+                lightboxImg.setAttribute('src', src);
+                lightboxImg.setAttribute('alt', alt);
+                lightbox.classList.add('active');
+            }
+
+            // Fermeture
+            if (closeBtn) {
+                closeBtn.onclick = () => lightbox.classList.remove('active');
+            }
+            lightbox.onclick = (e) => {
+                if (e.target === lightbox) lightbox.classList.remove('active');
+            };
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    lightbox.classList.remove('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            const total = mockupsData[currentCategory].length;
+            if (currentIndex < total - 1) {
+                currentIndex++;
+                updateCarousel();
+            }
+        }
+
+        function prevSlide() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            track = document.getElementById('carouselTrack');
+            trackWrapper = document.querySelector('.carousel-track-wrapper');
+            dotsContainer = document.getElementById('carouselDots');
+            prevBtn = document.getElementById('carouselPrev');
+            nextBtn = document.getElementById('carouselNext');
+            
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', prevSlide);
+                nextBtn.addEventListener('click', nextSlide);
+            }
+            
+            const categoryBtns = document.querySelectorAll('.cat-btn');
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const cat = btn.getAttribute('data-cat');
+                    renderCategory(cat);
+                });
+            });
+            
+            renderCategory('ong');
+            window.addEventListener('resize', () => updateCarousel());
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('.nav-links a, .btn[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Read more buttons
+        const readMoreBtns = document.querySelectorAll('.btn-readmore');
+        readMoreBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const extraDiv = document.getElementById(targetId);
+                if (extraDiv) {
+                    extraDiv.classList.toggle('show');
+                    this.textContent = extraDiv.classList.contains('show') ? 'Reduire' : 
+                        (targetId === 'probExtra' ? 'Lire integralement' : 
+                        (targetId === 'solExtra' ? 'Explorer la technologie' : 
+                        (targetId === 'impactExtra' ? 'Details impact' : 'Plus de fonctionnalites')));
+                }
+            });
+        });
+
+        // Bar chart animation
+        const barFills = document.querySelectorAll('.bar-fill');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('animated'); });
+        }, { threshold: 0.5 });
+        barFills.forEach(bar => observer.observe(bar));
+    </script>
+</body>
+</html>
