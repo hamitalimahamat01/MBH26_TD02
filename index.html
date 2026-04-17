@@ -617,7 +617,6 @@
                 <button class="btn btn-readmore" data-target="solExtra">Explorer la technologie</button>
             </div>
             <div id="solExtra" class="extra-content">
-                <p><strong>Architecture technique :</strong> AideChain utilise Hyperledger Fabric (permissioned). Chaque inscription genere un hash securise. Les API REST permettent aux ONG de soumettre leurs bases et de recevoir des alertes de doublons en moins de 2 secondes.</p>
                 <p>Tableau de bord avec indicateurs temps reel : aides uniques, repartition geographique, taux de couverture.</p>
             </div>
         </div>
@@ -671,8 +670,9 @@
             <div class="mockup-selector">
                 <div class="selector-title">Explorer les maquettes par fonctionnalité</div>
                 <div class="selector-buttons" id="categoryButtons">
-                    <button class="cat-btn active" data-cat="ong">Interface ONG</button>
-                    <button class="cat-btn" data-cat="coordination">Interface coordination</button>
+                    <button class="cat-btn active" data-cat="ong">Interface web</button>
+                    <button class="cat-btn" data-cat="ong">Dashboard ONG</button>
+                    <button class="cat-btn" data-cat="coordination">Dashboard coordination</button>
                     <button class="cat-btn" data-cat="doublons">Liste des doublons</button>
                     <button class="cat-btn" data-cat="beneficiaires">Liste bénéficiaires</button>
                     <button class="cat-btn" data-cat="carte">Carte couverture</button>
@@ -728,6 +728,14 @@
     <script>
         // ========== DONNÉES DES MAQUETTES ==========
         const mockupsData = {
+
+              interface: [
+                { img: "./ONG/ong_1.png", caption: "Interface d'enregistrement des bénéficiaires" },
+                { img: "./ONG/ong_2.png", caption: "Dashboard ONG avec indicateurs clés" },
+                { img: "./ONG/ong_3.png", caption: "Liste des bénéficiaires et détection doublons" },
+                { img: "./ONG/ong_4.png", caption: "Filtrage par région et période" }
+            ],
+
             ong: [
                 { img: "./ONG/ong_1.png", caption: "Interface d'enregistrement des bénéficiaires" },
                 { img: "./ONG/ong_2.png", caption: "Dashboard ONG avec indicateurs clés" },
@@ -742,32 +750,32 @@
                 { img: "./ONG/ong_11.png", caption: "Statistiques et rapports d'aide" }
             ],
             coordination: [
-                { img: "https://placehold.co/800x500/1e3a5f/white?text=Coordination+Dashboard", caption: "Dashboard coordination (exemple)" },
-                { img: "https://placehold.co/800x500/276749/white?text=Filtres+région", caption: "Filtres par région" },
-                { img: "https://placehold.co/800x500/9c4221/white?text=Alertes+sous-couvertes", caption: "Alertes zones sous-couvertes" },
-                { img: "https://placehold.co/800x500/2c5282/white?text=Statistiques+globales", caption: "Indicateurs clés" },
-                { img: "https://placehold.co/800x500/4a627a/white?text=Rapport+export", caption: "Export rapports consolidés" }
+                { img: "", caption: "Dashboard coordination (exemple)" },
+                { img: "", caption: "Filtres par région" },
+                { img: "", caption: "Alertes zones sous-couvertes" },
+                { img: "", caption: "Indicateurs clés" },
+                { img: "", caption: "Export rapports consolidés" }
             ],
             doublons: [
-                { img: "https://placehold.co/800x500/742a2a/white?text=Liste+doublons", caption: "Liste des doublons détectés" },
-                { img: "https://placehold.co/800x500/2c3e50/white?text=Détail+doublon", caption: "Détail d'un doublon (comparaison)" },
-                { img: "https://placehold.co/800x500/7b341e/white?text=Résolution", caption: "Action de résolution fusion" },
-                { img: "https://placehold.co/800x500/c53030/white?text=Alerte+notification", caption: "Notification automatique" },
-                { img: "https://placehold.co/800x500/4a627a/white?text=Historique", caption: "Historique des conflits" }
+                { img: "", caption: "Liste des doublons détectés" },
+                { img: "", caption: "Détail d'un doublon (comparaison)" },
+                { img: "", caption: "Action de résolution fusion" },
+                { img: "", caption: "Notification automatique" },
+                { img: "", caption: "Historique des conflits" }
             ],
             beneficiaires: [
-                { img: "https://placehold.co/800x500/1e3a8a/white?text=Liste+bénéficiaires", caption: "Liste des bénéficiaires uniques" },
-                { img: "https://placehold.co/800x500/065f46/white?text=Profil+bénéficiaire", caption: "Profil détaillé / aides reçues" },
-                { img: "https://placehold.co/800x500/854d0e/white?text=Export+sécurisé", caption: "Export pour bailleurs" },
-                { img: "https://placehold.co/800x500/3b82f6/white?text=Recherche+avancée", caption: "Recherche multicritères" },
-                { img: "https://placehold.co/800x500/10b981/white?text=Suivi", caption: "Suivi des distributions" }
+                { img: "", caption: "Liste des bénéficiaires uniques" },
+                { img: "", caption: "Profil détaillé / aides reçues" },
+                { img: "", caption: "Export pour bailleurs" },
+                { img: "", caption: "Recherche multicritères" },
+                { img: "", caption: "Suivi des distributions" }
             ],
             carte: [
-                { img: "https://placehold.co/800x500/2d3748/white?text=Carte+chaleur", caption: "Carte de chaleur des zones couvertes" },
-                { img: "https://placehold.co/800x500/9b2c2c/white?text=Zones+non+couvertes", caption: "Zones non couvertes (rouge)" },
-                { img: "https://placehold.co/800x500/2c7a7b/white?text=Couverture+district", caption: "Couverture détaillée par district" },
-                { img: "https://placehold.co/800x500/319795/white?text=Superposition+ONG", caption: "Superposition des interventions ONG" },
-                { img: "https://placehold.co/800x500/4a5568/white?text=Évolution", caption: "Évolution de la couverture" }
+                { img: "", caption: "Carte de chaleur des zones couvertes" },
+                { img: "", caption: "Zones non couvertes (rouge)" },
+                { img: "", caption: "Couverture détaillée par district" },
+                { img: "", caption: "Superposition des interventions ONG" },
+                { img: "", caption: "Évolution de la couverture" }
             ]
         };
 
